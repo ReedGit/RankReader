@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="25dp"
             android:orientation="vertical">
 
             <TextView
@@ -95,7 +95,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:max="5"
+        android:progress="3"
         android:visibility="gone"
-        app:layout_scrollFlags="scroll|enterAlways" />
+        app:layout_scrollFlags="scroll|enterAlways"/>
 
 </android.support.design.widget.CoordinatorLayout>

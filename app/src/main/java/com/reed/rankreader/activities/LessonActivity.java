@@ -43,9 +43,6 @@ public class LessonActivity extends AppCompatActivity {
     private AppCompatSeekBar lightSKB;
     private String article;
     private String lesson;
-    private String title;
-    private String newWords;
-    private String translation;
     private JSONObject rankJson;
 
     @Override
@@ -54,10 +51,10 @@ public class LessonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lesson);
         String str = getIntent().getStringExtra("article");
         article = str.substring(str.indexOf("First listen"),str.indexOf("New words and")).trim();
-        title = getTitle(str);
+        String title = getTitle(str);
         lesson = getIntent().getStringExtra("lesson");
-        newWords = str.substring(str.indexOf("New words and"), str.indexOf("参考译文")).trim();
-        translation = str.substring(str.indexOf("参考译文")).trim();
+        String newWords = str.substring(str.indexOf("New words and"), str.indexOf("参考译文")).trim();
+        String translation = str.substring(str.indexOf("参考译文")).trim();
         try {
             rankJson = FileData.initRank(getAssets().open("nce4_words"));
         } catch (IOException e) {
@@ -65,7 +62,10 @@ public class LessonActivity extends AppCompatActivity {
         }
         isLight = false;
         initView();
+        titleTextView.setText(title);
+        newWordsTextView.setText(newWords);
         lessonTextView.setText(article);
+        translationTextView.setText(translation);
         if (!isLight) {
             lightClick();
         }
@@ -89,11 +89,8 @@ public class LessonActivity extends AppCompatActivity {
         });
         lessonTextView = (TextView) findViewById(R.id.lesson_textView);
         titleTextView = (TextView) findViewById(R.id.title_textView);
-        titleTextView.setText(title);
         newWordsTextView = (TextView) findViewById(R.id.new_words_textView);
-        newWordsTextView.setText(newWords);
         translationTextView = (TextView) findViewById(R.id.translation_textView);
-        translationTextView.setText(translation);
 
     }
 
