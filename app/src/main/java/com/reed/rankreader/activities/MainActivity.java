@@ -16,9 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,10 +47,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Iterator<String> iterator = article.keys();
+        List<Integer> list = new ArrayList<>();
         while (iterator.hasNext()) {
             String unit = iterator.next();
+            list.add(Integer.parseInt(unit.substring(5)));
+        }
+        Collections.sort(list);
+        for (int i = 0; i<list.size();i++){
             TabLayout.Tab tab = mTabLayout.newTab();
-            tab.setText(unit);
+            tab.setText("Unit "+list.get(i));
             mTabLayout.addTab(tab);
         }
 
