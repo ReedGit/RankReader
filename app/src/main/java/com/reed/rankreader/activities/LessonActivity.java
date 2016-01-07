@@ -2,17 +2,15 @@ package com.reed.rankreader.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -34,10 +32,11 @@ public class LessonActivity extends AppCompatActivity {
 
     private TextView lessonTextView;
     private TextView rankTextView;
-    private FloatingActionButton lightFAB;
+    private ImageButton lightImgBtn;
     private Boolean isLight;
     private AppCompatSeekBar lightSKB;
     private String article;
+    private String lesson;
     private JSONObject rankJson;
 
     @Override
@@ -45,6 +44,7 @@ public class LessonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
         article = getIntent().getStringExtra("article");
+        lesson = getIntent().getStringExtra("lesson");
         try {
             rankJson = FileData.initRank(getAssets().open("nce4_words"));
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class LessonActivity extends AppCompatActivity {
         isLight = false;
         initView();
         lessonTextView.setText(article);
-        lightFAB.setOnClickListener(new View.OnClickListener() {
+        lightImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isLight) {
@@ -94,9 +94,10 @@ public class LessonActivity extends AppCompatActivity {
 
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        lightFAB = (FloatingActionButton) findViewById(R.id.light_fab);
+        lightImgBtn = (ImageButton) findViewById(R.id.light_imgbtn);
         lightSKB = (AppCompatSeekBar) findViewById(R.id.light_skb);
         rankTextView = (TextView) findViewById(R.id.rank_textView);
+        toolbar.setTitle(lesson);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.toolbar_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

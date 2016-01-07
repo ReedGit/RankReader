@@ -52,6 +52,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
                     Intent intent = new Intent(context, LessonActivity.class);
                     try {
                         intent.putExtra("article", lessonJson.getString(lesson));
+                        intent.putExtra("lesson",lesson);
                         context.startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
