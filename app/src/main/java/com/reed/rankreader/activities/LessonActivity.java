@@ -110,6 +110,7 @@ public class LessonActivity extends AppCompatActivity {
                 } else {
                     isLight = true;
                     lightSKB.setVisibility(View.VISIBLE);
+                    lightImgBtn.setBackgroundResource(R.mipmap.open);
                     int progress = lightSKB.getProgress();
                     rankTextView.setText("高亮等级：" + progress);
                     rankTextView.setVisibility(View.VISIBLE);

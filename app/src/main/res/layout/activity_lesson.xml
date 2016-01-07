@@ -16,8 +16,8 @@
 
             <ImageButton
                 android:id="@+id/light_imgbtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="22dp"
+                android:layout_height="28dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
                 android:background="@mipmap/close" />
