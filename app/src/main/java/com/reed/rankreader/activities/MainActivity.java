@@ -3,7 +3,6 @@ package com.reed.rankreader.activities;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.reed.rankreader.R;
 import com.reed.rankreader.adapters.LessonAdapter;
-import com.reed.rankreader.utils.DividerItemDecoration;
 import com.reed.rankreader.utils.FileData;
 
 import org.json.JSONException;
@@ -53,16 +51,13 @@ public class MainActivity extends AppCompatActivity {
             mTabLayout.addTab(tab);
         }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         try {
             lessonAdapter = new LessonAdapter(this, article.getJSONArray(mTabLayout.getTabAt(0).getText().toString()));
             mRecyclerView.setAdapter(lessonAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
