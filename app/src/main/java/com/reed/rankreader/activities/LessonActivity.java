@@ -7,13 +7,10 @@ import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.CharacterStyle;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -37,20 +34,30 @@ import java.util.regex.Pattern;
 public class LessonActivity extends AppCompatActivity {
 
     private TextView lessonTextView;
+    private TextView titleTextView;
+    private TextView newWordsTextView;
+    private TextView translationTextView;
     private TextView rankTextView;
     private ImageButton lightImgBtn;
     private Boolean isLight;
     private AppCompatSeekBar lightSKB;
     private String article;
     private String lesson;
+    private String title;
+    private String newWords;
+    private String translation;
     private JSONObject rankJson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
-        article = getIntent().getStringExtra("article");
+        String str = getIntent().getStringExtra("article");
+        article = str.substring(str.indexOf("First listen"),str.indexOf("New words and")).trim();
+        title = getTitle(str);
         lesson = getIntent().getStringExtra("lesson");
+        newWords = str.substring(str.indexOf("New words and"), str.indexOf("参考译文")).trim();
+        translation = str.substring(str.indexOf("参考译文")).trim();
         try {
             rankJson = FileData.initRank(getAssets().open("nce4_words"));
         } catch (IOException e) {
@@ -81,6 +88,13 @@ public class LessonActivity extends AppCompatActivity {
             }
         });
         lessonTextView = (TextView) findViewById(R.id.lesson_textView);
+        titleTextView = (TextView) findViewById(R.id.title_textView);
+        titleTextView.setText(title);
+        newWordsTextView = (TextView) findViewById(R.id.new_words_textView);
+        newWordsTextView.setText(newWords);
+        translationTextView = (TextView) findViewById(R.id.translation_textView);
+        translationTextView.setText(translation);
+
     }
 
     private void initListener() {
@@ -91,6 +105,7 @@ public class LessonActivity extends AppCompatActivity {
                     isLight = false;
                     lightSKB.setVisibility(View.GONE);
                     rankTextView.setVisibility(View.GONE);
+                    lightImgBtn.setBackgroundResource(R.mipmap.close);
                     lightClick();
                 } else {
                     isLight = true;
@@ -143,7 +158,7 @@ public class LessonActivity extends AppCompatActivity {
         CharacterStyle span;
         for (String key : keyList) {
             Pattern p = Pattern.compile(key);
-            Matcher m = p.matcher(article);
+            Matcher m = p.matcher(article.toLowerCase());
             while (m.find()) {
                 if (m.start() == 0) {
                     if (m.end() < article.length()) {
@@ -176,6 +191,9 @@ public class LessonActivity extends AppCompatActivity {
         Matcher matcher = pattern.matcher(article);
         while (matcher.find()) {
             int wordStart = matcher.start();
+            if (!isLetter(article.charAt(wordStart))) {
+                continue;
+            }
             int wordEnd = matcher.end();
             WordClickableSpan wcs = new WordClickableSpan(lessonTextView, spannable, wordStart, wordEnd);
             spannable.setSpan(wcs, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -188,5 +206,12 @@ public class LessonActivity extends AppCompatActivity {
 
     private Boolean isLetter(char c) {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+    }
+
+    private String getTitle(String content) {
+        int index = content.indexOf("First listen");
+        Pattern p = Pattern.compile(" +");
+        Matcher m = p.matcher(content.substring(0, index).trim());
+        return m.replaceAll(" ");
     }
 }

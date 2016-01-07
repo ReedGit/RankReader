@@ -7,12 +7,8 @@ import android.text.TextPaint;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.regex.Matcher;
 
 
 public class WordClickableSpan extends ClickableSpan {

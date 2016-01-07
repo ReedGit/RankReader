@@ -85,10 +85,9 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     }
 
     private String getTitle(String article) {
-        String title = article.replace("\n", "");
-        int index = title.indexOf("First listen");
+        int index = article.indexOf("First listen");
         Pattern p = Pattern.compile("\\s+");
-        Matcher m = p.matcher(title.substring(0, index).trim());
+        Matcher m = p.matcher(article.substring(0, index).trim());
         return m.replaceAll(" ");
     }
 }
