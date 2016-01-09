@@ -23,7 +23,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private JSONObject article;
+    private JSONObject content;
     private RecyclerView mRecyclerView;
     private LessonAdapter lessonAdapter;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try {
-            article = FileData.initArticle(getAssets().open("four.txt"));
+            content = FileData.initData(getAssets().open("four.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        Iterator<String> iterator = article.keys();
+        Iterator<String> iterator = content.keys();
         List<Integer> list = new ArrayList<>();
         while (iterator.hasNext()) {
             String unit = iterator.next();
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         try {
-            lessonAdapter = new LessonAdapter(this, article.getJSONArray(mTabLayout.getTabAt(0).getText().toString()));
+            lessonAdapter = new LessonAdapter(this, content.getJSONArray(mTabLayout.getTabAt(0).getText().toString()));
             mRecyclerView.setAdapter(lessonAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 try {
                     String unit = tab.getText().toString();
-                    lessonAdapter = new LessonAdapter(MainActivity.this, article.getJSONArray(unit));
+                    lessonAdapter = new LessonAdapter(MainActivity.this, content.getJSONArray(unit));
                     mRecyclerView.setAdapter(lessonAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();

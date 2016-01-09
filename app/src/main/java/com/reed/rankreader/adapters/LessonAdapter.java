@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,13 +44,13 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
             Iterator<String> iterator = lessonJson.keys();
             final String lesson = iterator.next();
             holder.lessonVP.setText(lesson);
-            holder.titleVP.setText(getTitle(lessonJson.getString(lesson)));
+            holder.titleVP.setText(getTitle(lessonJson.getJSONObject(lesson).getString("title")));
             holder.lessonCV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, LessonActivity.class);
                     try {
-                        intent.putExtra("article", lessonJson.getString(lesson));
+                        intent.putExtra("content",lessonJson.getJSONObject(lesson).toString());
                         intent.putExtra("lesson",lesson);
                         context.startActivity(intent);
                     } catch (JSONException e) {
@@ -84,10 +83,9 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         }
     }
 
-    private String getTitle(String article) {
-        int index = article.indexOf("First listen");
+    private String getTitle(String str) {
         Pattern p = Pattern.compile("\\s+");
-        Matcher m = p.matcher(article.substring(0, index).trim());
+        Matcher m = p.matcher(str.trim());
         return m.replaceAll(" ");
     }
 }
