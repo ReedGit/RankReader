@@ -34,7 +34,7 @@ public class WordClickableSpan extends ClickableSpan {
     public void onClick(View widget) {
         SpannableString sn = new SpannableString(spannable);
         CharacterStyle span;
-        span = new ForegroundColorSpan(Color.GREEN);
+        span = new ForegroundColorSpan(Color.parseColor("#FF9800"));
         sn.setSpan(span, wordStart, wordEnd,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(sn);

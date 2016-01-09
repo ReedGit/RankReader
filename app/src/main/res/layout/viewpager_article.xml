@@ -11,7 +11,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="25dp">
 
             <TextView
                 android:id="@+id/title_textView"
@@ -27,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="#000000"
+                android:textColor="#212121"
                 android:textSize="16sp" />
         </LinearLayout>
 
