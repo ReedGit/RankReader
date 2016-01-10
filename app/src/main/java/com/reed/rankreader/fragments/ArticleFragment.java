@@ -10,7 +10,6 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ public class ArticleFragment extends Fragment {
 
     private AppCompatSeekBar lightSKB;
     private TextView articleTV;
-    private TextView titleTV;
     private String mTitle;
     private String mArticle;
     private JSONObject mRankJson;
@@ -63,7 +61,7 @@ public class ArticleFragment extends Fragment {
             mView = inflater.inflate(R.layout.viewpager_article, container, false);
             lightSKB = (AppCompatSeekBar) mView.findViewById(R.id.light_skb);
             articleTV = (TextView) mView.findViewById(R.id.lesson_textView);
-            titleTV = (TextView) mView.findViewById(R.id.title_textView);
+            TextView titleTV = (TextView) mView.findViewById(R.id.title_textView);
             rankTextView = (TextView) getActivity().findViewById(R.id.rank_textView);
             lightImgBtn = (ImageButton) getActivity().findViewById(R.id.light_imgbtn);
             if (isLight) {
@@ -108,7 +106,8 @@ public class ArticleFragment extends Fragment {
                     lightSKB.setVisibility(View.VISIBLE);
                     lightImgBtn.setBackgroundResource(R.mipmap.open);
                     int progress = lightSKB.getProgress();
-                    rankTextView.setText("高亮等级：" + progress);
+                    String rankText = "高亮等级：" + progress;
+                    rankTextView.setText(rankText);
                     rankTextView.setVisibility(View.VISIBLE);
                     List<String> keyList = getKey(progress);
                     articleTV.setText(highlight(keyList));
@@ -120,7 +119,8 @@ public class ArticleFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 List<String> keyList = getKey(progress);
                 articleTV.setText(highlight(keyList));
-                rankTextView.setText("高亮等级：" + progress);
+                String rankText = "高亮等级：" + progress;
+                rankTextView.setText(rankText);
             }
 
             @Override
