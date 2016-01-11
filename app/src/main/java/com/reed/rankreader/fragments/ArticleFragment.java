@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -53,6 +54,9 @@ public class ArticleFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Bundle bundle = getArguments();
+        mTitle = bundle.getString("title");
+        mArticle = bundle.getString("article");
     }
 
     @Override
@@ -79,15 +83,9 @@ public class ArticleFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mView != null) {
+        /*if (mView != null) {
             ((ViewGroup) mView.getParent()).removeView(mView);
-        }
-    }
-
-    @Override
-    public void setArguments(Bundle bundle) {
-        mTitle = bundle.getString("title");
-        mArticle = bundle.getString("article");
+        }*/
     }
 
     private void initListener() {

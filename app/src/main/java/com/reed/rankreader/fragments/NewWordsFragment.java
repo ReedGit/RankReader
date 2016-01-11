@@ -16,6 +16,13 @@ public class NewWordsFragment extends Fragment {
     private View mView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        mNewWords = bundle.getString("new_words");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (null == mView) {
             mView = inflater.inflate(R.layout.viewpager_new_words, container, false);
@@ -28,13 +35,6 @@ public class NewWordsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mView != null) {
-            ((ViewGroup) mView.getParent()).removeView(mView);
-        }
     }
 
-    @Override
-    public void setArguments(Bundle bundle) {
-        mNewWords = bundle.getString("new_words");
-    }
 }

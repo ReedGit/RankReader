@@ -15,6 +15,13 @@ public class TranslationFragment extends Fragment {
     private View mView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        mTranslation = bundle.getString("translation");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (null == mView) {
             mView = inflater.inflate(R.layout.viewpager_translation, container, false);
@@ -27,13 +34,6 @@ public class TranslationFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mView != null) {
-            ((ViewGroup) mView.getParent()).removeView(mView);
-        }
     }
 
-    @Override
-    public void setArguments(Bundle bundle) {
-        mTranslation = bundle.getString("translation");
-    }
 }

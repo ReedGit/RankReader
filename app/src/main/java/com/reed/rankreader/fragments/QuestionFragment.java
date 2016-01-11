@@ -16,6 +16,13 @@ public class QuestionFragment extends Fragment {
     private View mView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        mQuestion = bundle.getString("question");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (null == mView) {
             mView = inflater.inflate(R.layout.viewpager_question, container, false);
@@ -28,13 +35,6 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mView != null) {
-            ((ViewGroup) mView.getParent()).removeView(mView);
-        }
     }
 
-    @Override
-    public void setArguments(Bundle bundle) {
-        mQuestion = bundle.getString("question");
-    }
 }
