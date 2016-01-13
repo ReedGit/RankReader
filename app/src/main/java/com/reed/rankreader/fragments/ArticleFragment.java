@@ -4,13 +4,13 @@ import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSeekBar;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +44,8 @@ public class ArticleFragment extends Fragment {
     private TextView rankTextView;
     private ImageButton lightImgBtn;
     private View mView;
+    public static SpannableString mSpannable;
+    public static SpannableString mRankSpan;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,8 @@ public class ArticleFragment extends Fragment {
                 lightSKB.setVisibility(View.VISIBLE);
             }
             titleTV.setText(mTitle);
-            articleTV.setText(lightClick(mArticle));
+            mSpannable = lightClick(mArticle);
+            articleTV.setText(mSpannable);
             articleTV.setMovementMethod(LinkMovementMethod.getInstance());
             initListener();
         }
@@ -97,7 +100,7 @@ public class ArticleFragment extends Fragment {
                     lightSKB.setVisibility(View.GONE);
                     rankTextView.setVisibility(View.GONE);
                     lightImgBtn.setBackgroundResource(R.mipmap.close);
-                    articleTV.setText(lightClick(mArticle));
+                    articleTV.setText(mSpannable);
                     articleTV.setMovementMethod(LinkMovementMethod.getInstance());
                 } else {
                     isLight = true;
@@ -108,7 +111,8 @@ public class ArticleFragment extends Fragment {
                     rankTextView.setText(rankText);
                     rankTextView.setVisibility(View.VISIBLE);
                     List<String> keyList = getKey(progress);
-                    articleTV.setText(highlight(keyList));
+                    mRankSpan = highlight(keyList,lightClick(mArticle));
+                    articleTV.setText(highlight(keyList,mSpannable));
                 }
             }
         });
@@ -116,7 +120,8 @@ public class ArticleFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 List<String> keyList = getKey(progress);
-                articleTV.setText(highlight(keyList));
+                mRankSpan = highlight(keyList,lightClick(mArticle));
+                articleTV.setText(highlight(keyList,mSpannable));
                 String rankText = "高亮等级：" + progress;
                 rankTextView.setText(rankText);
             }
@@ -148,8 +153,8 @@ public class ArticleFragment extends Fragment {
         return keyList;
     }
 
-    private SpannableString highlight(List<String> keyList) {
-        SpannableString spannable = new SpannableString(mArticle);
+    private SpannableString highlight(List<String> keyList, CharSequence source) {
+        SpannableString spannable = new SpannableString(source);
         CharacterStyle span;
         for (String key : keyList) {
             Pattern p = Pattern.compile(key.toLowerCase());
@@ -177,7 +182,7 @@ public class ArticleFragment extends Fragment {
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
-        return lightClick(spannable);
+        return spannable;
     }
 
     private SpannableString lightClick(CharSequence source) {

@@ -10,6 +10,8 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.TextView;
 
+import com.reed.rankreader.fragments.ArticleFragment;
+
 
 public class WordClickableSpan extends ClickableSpan {
 
@@ -32,11 +34,20 @@ public class WordClickableSpan extends ClickableSpan {
 
     @Override
     public void onClick(View widget) {
-        SpannableString sn = new SpannableString(spannable);
-        CharacterStyle span;
-        span = new ForegroundColorSpan(Color.parseColor("#FF9800"));
+        CharacterStyle span = new ForegroundColorSpan(Color.parseColor("#FF9800"));
+        ArticleFragment.mSpannable = new SpannableString(spannable);
+        ArticleFragment.mSpannable.setSpan(span, wordStart, wordEnd,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        SpannableString sn;
+        if (!ArticleFragment.isLight) {
+            sn = new SpannableString(spannable);
+        } else {
+            sn = new SpannableString(ArticleFragment.mRankSpan);
+        }
         sn.setSpan(span, wordStart, wordEnd,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         textView.setText(sn);
     }
 }
